@@ -150,6 +150,13 @@ scene.add(lightHelper, gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
+const computerImage = new THREE.TextureLoader().load("/computer.png");
+const computer = new THREE.Mesh(
+  new THREE.BoxGeometry(3, 3, 3),
+  new THREE.MeshBasicMaterial({ map: computerImage })
+);
+scene.add(computer);
+
 function addStar() {
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
   const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
@@ -175,6 +182,7 @@ function moveCar(keyCode) {
     frontRightWheel.position.z -= speed;
     RightWheel.position.z -= speed;
     LeftWheel.position.z -= speed;
+    camera.position.z -= speed;
   } else if (keyCode == 83) {
     carBody.position.z += speed;
     carUp.position.z += speed;
@@ -182,6 +190,8 @@ function moveCar(keyCode) {
     frontRightWheel.position.z += speed;
     RightWheel.position.z += speed;
     LeftWheel.position.z += speed;
+    // update camera position
+    camera.position.z += speed;
   } else if (keyCode == 65) {
     carBody.position.x -= speed;
     carUp.position.x -= speed;
@@ -189,6 +199,7 @@ function moveCar(keyCode) {
     frontRightWheel.position.x -= speed;
     RightWheel.position.x -= speed;
     LeftWheel.position.x -= speed;
+    camera.position.x -= speed;
   } else if (keyCode == 68) {
     carBody.position.x += speed;
     carUp.position.x += speed;
@@ -196,6 +207,7 @@ function moveCar(keyCode) {
     frontRightWheel.position.x += speed;
     RightWheel.position.x += speed;
     LeftWheel.position.x += speed;
+    camera.position.x += speed;
   } else if (keyCode == 32) {
     // clear objects
     scene.remove(torus);
@@ -206,6 +218,7 @@ function moveCar(keyCode) {
     frontRightWheel.position.set(1, -1, 1.5);
     RightWheel.position.set(1, -1, -1.5);
     LeftWheel.position.set(-1, -1, -1.5);
+    camera.position.set(0, 0, 30);
   }
 }
 
@@ -221,6 +234,9 @@ function animate() {
 
   dode.rotation.x += 0.03;
   dode.rotation.y += 0.03;
+
+  computer.rotation.x += 0.03;
+  computer.rotation.y += 0.03;
 
   controls.update();
 

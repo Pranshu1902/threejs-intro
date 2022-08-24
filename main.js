@@ -6,7 +6,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
-  75,
+  45,
   window.innerWidth / window.innerHeight,
   0.1,
   1000
@@ -146,7 +146,7 @@ scene.add(pointLight, ambientLight);
 
 const lightHelper = new THREE.PointLightHelper(pointLight);
 const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(lightHelper, gridHelper);
+// scene.add(lightHelper, gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -222,6 +222,15 @@ function moveCar(keyCode) {
   }
 }
 
+const cursor = { x: 0, y: 0 };
+
+document.addEventListener("mousemove", (event) => {
+  cursor.x = event.clientX / window.innerWidth - 0.5;
+  cursor.y = event.clientY / window.innerHeight - 0.5;
+});
+
+camera.position.y -= 20;
+
 function animate() {
   requestAnimationFrame(animate);
 
@@ -238,16 +247,19 @@ function animate() {
   computer.rotation.x += 0.03;
   computer.rotation.y += 0.03;
 
+  camera.position.x += cursor.x - camera.position.x;
+  camera.position.y += cursor.y - camera.position.y;
+
   controls.update();
 
   renderer.render(scene, camera);
 }
 
 // move based on key press
-document.addEventListener("keydown", onDocumentKeyDown, false);
-function onDocumentKeyDown(event) {
-  var keyCode = event.which;
-  moveCar(keyCode);
-}
+// document.addEventListener("keydown", onDocumentKeyDown, false);
+// function onDocumentKeyDown(event) {
+//   var keyCode = event.which;
+//   moveCar(keyCode);
+// }
 
 animate();
